@@ -1,0 +1,13 @@
+prefix=/home/changseok/local
+exec_prefix=/home/changseok/local
+libdir=/home/changseok/local/lib
+sharedlibdir=/home/changseok/local/lib
+includedir=/home/changseok/local/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.11
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package my_protobuf;
+
+service transactionTest {
+
+    rpc IimageOimage (ImageType) returns (ImageType) {}
+    rpc ItextOtext (TextType) returns (TextType) {}
+    rpc IjsonOjson (JSONType) returns (JSONType) {}
+    rpc IReqITORepIT (RequestImageType) returns (ReplyImageType) {}
+}
+
+message ImageType {
+  string format = 1;
+  bytes data = 2;
+}
+
+message TextType {
+    string data = 1;
+}
+
+message JSONType {
+    bytes data = 1;
+}
+
+message RequestImageType {
+	string name = 1;
+}
+
+message ReplyImageType {
+	string name = 1;
+	bytes data = 2;
+}

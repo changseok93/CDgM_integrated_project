@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package playground;
+
+service transactionTest {
+
+    rpc IimageOimage (ImageType) returns (ImageType) {}
+    rpc ItextOtext (TextType) returns (TextType) {}
+    rpc IjsonOjson (JSONType) returns (JSONType) {}
+}
+
+message ImageType {
+  string format = 1;
+  bytes data = 2; 
+}
+
+message TextType {
+    string data = 1;
+}
+
+message JSONType {
+    bytes data = 1;
+}
+
+
