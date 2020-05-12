@@ -90,7 +90,7 @@ class transactionTestServiceImpl final : public transactionTest::Service {
     
     //set local image path
     std::stringstream ss;
-    ss << "/home/firefly/gRPC_testbed/C++/image_log/" << request->name() << ".jpg"; 
+    ss << "../../image_log/" << request->name() << ".jpg"; 
 
     // door open
     int fd = open("/sys/class/gpio/gpio12/value", O_WRONLY);
@@ -150,6 +150,7 @@ class transactionTestServiceImpl final : public transactionTest::Service {
     ifs.seekg(0, ifs.end);
     int length = (int)ifs.tellg();
     ifs.seekg(0, ifs.beg);
+    std::cout << "filesize : " << length << std::endl;
 
     // read image in buffer
     char* buffer = new char [length];
@@ -164,7 +165,7 @@ class transactionTestServiceImpl final : public transactionTest::Service {
 };
 
 void RunServer() {
-  std::string server_address("localhost:50051");
+  std::string server_address("192.168.10.72:50051");
   transactionTestServiceImpl service;
 
   grpc::EnableDefaultHealthCheckService(true);

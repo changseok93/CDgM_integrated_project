@@ -16,7 +16,7 @@ set(CMAKE_IMPORT_FILE_VERSION 1)
 set(_targetsDefined)
 set(_targetsNotDefined)
 set(_expectedTargets)
-foreach(_expectedTarget gRPC::absl_algorithm gRPC::absl_atomic_hook gRPC::absl_bad_optional_access gRPC::absl_base gRPC::absl_base_internal gRPC::absl_bits gRPC::absl_compressed_tuple gRPC::absl_config gRPC::absl_core_headers gRPC::absl_dynamic_annotations gRPC::absl_endian gRPC::absl_errno_saver gRPC::absl_inlined_vector gRPC::absl_inlined_vector_internal gRPC::absl_int128 gRPC::absl_log_severity gRPC::absl_memory gRPC::absl_optional gRPC::absl_raw_logging_internal gRPC::absl_span gRPC::absl_spinlock_wait gRPC::absl_str_format gRPC::absl_str_format_internal gRPC::absl_strings gRPC::absl_strings_internal gRPC::absl_throw_delegate gRPC::absl_type_traits gRPC::absl_utility gRPC::absl_meta gRPC::cares gRPC::ssl gRPC::crypto gRPC::zlibstatic gRPC::address_sorting gRPC::gpr gRPC::grpc gRPC::grpc_cronet gRPC::grpc_unsecure gRPC::grpc++ gRPC::grpc++_alts gRPC::grpc++_error_details gRPC::grpc++_reflection gRPC::grpc++_unsecure gRPC::grpc_plugin_support gRPC::grpcpp_channelz gRPC::upb gRPC::grpc_cpp_plugin gRPC::grpc_csharp_plugin gRPC::grpc_node_plugin gRPC::grpc_objective_c_plugin gRPC::grpc_php_plugin gRPC::grpc_python_plugin gRPC::grpc_ruby_plugin)
+foreach(_expectedTarget gRPC::absl_algorithm gRPC::absl_atomic_hook gRPC::absl_bad_optional_access gRPC::absl_base gRPC::absl_base_internal gRPC::absl_bits gRPC::absl_civil_time gRPC::absl_compressed_tuple gRPC::absl_config gRPC::absl_core_headers gRPC::absl_dynamic_annotations gRPC::absl_endian gRPC::absl_errno_saver gRPC::absl_inlined_vector gRPC::absl_inlined_vector_internal gRPC::absl_int128 gRPC::absl_log_severity gRPC::absl_memory gRPC::absl_optional gRPC::absl_raw_logging_internal gRPC::absl_span gRPC::absl_spinlock_wait gRPC::absl_str_format gRPC::absl_str_format_internal gRPC::absl_strings gRPC::absl_strings_internal gRPC::absl_throw_delegate gRPC::absl_time gRPC::absl_time_zone gRPC::absl_type_traits gRPC::absl_utility gRPC::absl_meta gRPC::cares gRPC::ssl gRPC::crypto gRPC::zlibstatic gRPC::address_sorting gRPC::gpr gRPC::grpc gRPC::grpc_unsecure gRPC::grpc++ gRPC::grpc++_alts gRPC::grpc++_error_details gRPC::grpc++_reflection gRPC::grpc++_unsecure gRPC::grpc_plugin_support gRPC::grpcpp_channelz gRPC::upb gRPC::grpc_cpp_plugin gRPC::grpc_csharp_plugin gRPC::grpc_node_plugin gRPC::grpc_objective_c_plugin gRPC::grpc_php_plugin gRPC::grpc_python_plugin gRPC::grpc_ruby_plugin)
   list(APPEND _expectedTargets ${_expectedTarget})
   if(NOT TARGET ${_expectedTarget})
     list(APPEND _targetsNotDefined ${_expectedTarget})
@@ -79,7 +79,7 @@ add_library(gRPC::absl_base STATIC IMPORTED)
 
 set_target_properties(gRPC::absl_base PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "gRPC::absl_atomic_hook;gRPC::absl_base_internal;gRPC::absl_config;gRPC::absl_core_headers;gRPC::absl_dynamic_annotations;gRPC::absl_log_severity;gRPC::absl_raw_logging_internal;gRPC::absl_spinlock_wait;gRPC::absl_type_traits;Threads::Threads;\$<LINK_ONLY:\$<\$<BOOL:/usr/lib/x86_64-linux-gnu/librt.so>:/usr/lib/x86_64-linux-gnu/librt.so>>;\$<LINK_ONLY:\$<\$<BOOL:>:\"advapi32\">>"
+  INTERFACE_LINK_LIBRARIES "gRPC::absl_atomic_hook;gRPC::absl_base_internal;gRPC::absl_config;gRPC::absl_core_headers;gRPC::absl_dynamic_annotations;gRPC::absl_log_severity;gRPC::absl_raw_logging_internal;gRPC::absl_spinlock_wait;gRPC::absl_type_traits;Threads::Threads;\$<LINK_ONLY:\$<\$<BOOL:/usr/lib/aarch64-linux-gnu/librt.so>:/usr/lib/aarch64-linux-gnu/librt.so>>;\$<LINK_ONLY:\$<\$<BOOL:>:\"advapi32\">>"
 )
 
 # Create imported target gRPC::absl_base_internal
@@ -96,6 +96,13 @@ add_library(gRPC::absl_bits INTERFACE IMPORTED)
 set_target_properties(gRPC::absl_bits PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
   INTERFACE_LINK_LIBRARIES "gRPC::absl_config;gRPC::absl_core_headers"
+)
+
+# Create imported target gRPC::absl_civil_time
+add_library(gRPC::absl_civil_time STATIC IMPORTED)
+
+set_target_properties(gRPC::absl_civil_time PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
 )
 
 # Create imported target gRPC::absl_compressed_tuple
@@ -257,6 +264,22 @@ set_target_properties(gRPC::absl_throw_delegate PROPERTIES
   INTERFACE_LINK_LIBRARIES "gRPC::absl_config;gRPC::absl_raw_logging_internal"
 )
 
+# Create imported target gRPC::absl_time
+add_library(gRPC::absl_time STATIC IMPORTED)
+
+set_target_properties(gRPC::absl_time PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+  INTERFACE_LINK_LIBRARIES "gRPC::absl_base;gRPC::absl_civil_time;gRPC::absl_core_headers;gRPC::absl_int128;gRPC::absl_raw_logging_internal;gRPC::absl_strings;gRPC::absl_time_zone"
+)
+
+# Create imported target gRPC::absl_time_zone
+add_library(gRPC::absl_time_zone STATIC IMPORTED)
+
+set_target_properties(gRPC::absl_time_zone PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
+  INTERFACE_LINK_LIBRARIES "\$<\$<PLATFORM_ID:Darwin>:>"
+)
+
 # Create imported target gRPC::absl_type_traits
 add_library(gRPC::absl_type_traits INTERFACE IMPORTED)
 
@@ -315,7 +338,7 @@ add_library(gRPC::gpr STATIC IMPORTED)
 
 set_target_properties(gRPC::gpr PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "dl;rt;m;pthread;gRPC::absl_inlined_vector;gRPC::absl_memory;gRPC::absl_str_format;gRPC::absl_strings;gRPC::absl_optional"
+  INTERFACE_LINK_LIBRARIES "dl;rt;m;pthread;gRPC::absl_time;gRPC::absl_strings;gRPC::absl_str_format;gRPC::absl_memory"
 )
 
 # Create imported target gRPC::grpc
@@ -323,15 +346,7 @@ add_library(gRPC::grpc STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "gRPC::ssl;gRPC::crypto;gRPC::zlibstatic;gRPC::cares;gRPC::address_sorting;gRPC::upb;dl;rt;m;pthread;gRPC::gpr;gRPC::upb"
-)
-
-# Create imported target gRPC::grpc_cronet
-add_library(gRPC::grpc_cronet STATIC IMPORTED)
-
-set_target_properties(gRPC::grpc_cronet PROPERTIES
-  INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "gRPC::ssl;gRPC::crypto;gRPC::zlibstatic;gRPC::cares;gRPC::address_sorting;gRPC::upb;dl;rt;m;pthread;gRPC::gpr;gRPC::upb"
+  INTERFACE_LINK_LIBRARIES "gRPC::ssl;gRPC::crypto;gRPC::zlibstatic;gRPC::cares;gRPC::address_sorting;gRPC::upb;dl;rt;m;pthread;gRPC::gpr;gRPC::address_sorting;gRPC::upb;gRPC::absl_optional;gRPC::absl_strings;gRPC::absl_inlined_vector"
 )
 
 # Create imported target gRPC::grpc_unsecure
@@ -339,7 +354,7 @@ add_library(gRPC::grpc_unsecure STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc_unsecure PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "gRPC::zlibstatic;gRPC::cares;gRPC::address_sorting;gRPC::upb;dl;rt;m;pthread;gRPC::gpr;gRPC::upb"
+  INTERFACE_LINK_LIBRARIES "gRPC::zlibstatic;gRPC::cares;gRPC::address_sorting;gRPC::upb;dl;rt;m;pthread;gRPC::gpr;gRPC::address_sorting;gRPC::upb;gRPC::absl_optional;gRPC::absl_strings;gRPC::absl_inlined_vector"
 )
 
 # Create imported target gRPC::grpc++
@@ -347,7 +362,7 @@ add_library(gRPC::grpc++ STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc++ PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "gRPC::ssl;gRPC::crypto;protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc;gRPC::gpr;gRPC::upb"
+  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc;gRPC::gpr;gRPC::address_sorting;gRPC::upb"
 )
 
 # Create imported target gRPC::grpc++_alts
@@ -355,7 +370,7 @@ add_library(gRPC::grpc++_alts STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc++_alts PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::gpr;gRPC::upb"
+  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::grpc;gRPC::gpr;gRPC::address_sorting;gRPC::upb"
 )
 
 # Create imported target gRPC::grpc++_error_details
@@ -363,7 +378,7 @@ add_library(gRPC::grpc++_error_details STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc++_error_details PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++"
+  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::grpc;gRPC::gpr;gRPC::address_sorting;gRPC::upb"
 )
 
 # Create imported target gRPC::grpc++_reflection
@@ -371,7 +386,7 @@ add_library(gRPC::grpc++_reflection STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc++_reflection PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::grpc"
+  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::grpc;gRPC::gpr;gRPC::address_sorting;gRPC::upb"
 )
 
 # Create imported target gRPC::grpc++_unsecure
@@ -379,7 +394,7 @@ add_library(gRPC::grpc++_unsecure STATIC IMPORTED)
 
 set_target_properties(gRPC::grpc++_unsecure PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::gpr;gRPC::grpc_unsecure;gRPC::upb"
+  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc_unsecure;gRPC::gpr;gRPC::address_sorting;gRPC::upb"
 )
 
 # Create imported target gRPC::grpc_plugin_support
@@ -395,7 +410,7 @@ add_library(gRPC::grpcpp_channelz STATIC IMPORTED)
 
 set_target_properties(gRPC::grpcpp_channelz PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::grpc"
+  INTERFACE_LINK_LIBRARIES "protobuf::libprotobuf;dl;rt;m;pthread;gRPC::grpc++;gRPC::grpc;gRPC::gpr;gRPC::address_sorting;gRPC::upb"
 )
 
 # Create imported target gRPC::upb

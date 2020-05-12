@@ -25,6 +25,16 @@ set_target_properties(gRPC::absl_base PROPERTIES
 list(APPEND _IMPORT_CHECK_TARGETS gRPC::absl_base )
 list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::absl_base "${_IMPORT_PREFIX}/lib/libabsl_base.a" )
 
+# Import target "gRPC::absl_civil_time" for configuration ""
+set_property(TARGET gRPC::absl_civil_time APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
+set_target_properties(gRPC::absl_civil_time PROPERTIES
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
+  IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libabsl_civil_time.a"
+  )
+
+list(APPEND _IMPORT_CHECK_TARGETS gRPC::absl_civil_time )
+list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::absl_civil_time "${_IMPORT_PREFIX}/lib/libabsl_civil_time.a" )
+
 # Import target "gRPC::absl_dynamic_annotations" for configuration ""
 set_property(TARGET gRPC::absl_dynamic_annotations APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(gRPC::absl_dynamic_annotations PROPERTIES
@@ -115,6 +125,26 @@ set_target_properties(gRPC::absl_throw_delegate PROPERTIES
 list(APPEND _IMPORT_CHECK_TARGETS gRPC::absl_throw_delegate )
 list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::absl_throw_delegate "${_IMPORT_PREFIX}/lib/libabsl_throw_delegate.a" )
 
+# Import target "gRPC::absl_time" for configuration ""
+set_property(TARGET gRPC::absl_time APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
+set_target_properties(gRPC::absl_time PROPERTIES
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
+  IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libabsl_time.a"
+  )
+
+list(APPEND _IMPORT_CHECK_TARGETS gRPC::absl_time )
+list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::absl_time "${_IMPORT_PREFIX}/lib/libabsl_time.a" )
+
+# Import target "gRPC::absl_time_zone" for configuration ""
+set_property(TARGET gRPC::absl_time_zone APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
+set_target_properties(gRPC::absl_time_zone PROPERTIES
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
+  IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libabsl_time_zone.a"
+  )
+
+list(APPEND _IMPORT_CHECK_TARGETS gRPC::absl_time_zone )
+list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::absl_time_zone "${_IMPORT_PREFIX}/lib/libabsl_time_zone.a" )
+
 # Import target "gRPC::cares" for configuration ""
 set_property(TARGET gRPC::cares APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(gRPC::cares PROPERTIES
@@ -185,16 +215,6 @@ set_target_properties(gRPC::grpc PROPERTIES
 list(APPEND _IMPORT_CHECK_TARGETS gRPC::grpc )
 list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::grpc "${_IMPORT_PREFIX}/lib/libgrpc.a" )
 
-# Import target "gRPC::grpc_cronet" for configuration ""
-set_property(TARGET gRPC::grpc_cronet APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
-set_target_properties(gRPC::grpc_cronet PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "C;CXX"
-  IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libgrpc_cronet.a"
-  )
-
-list(APPEND _IMPORT_CHECK_TARGETS gRPC::grpc_cronet )
-list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::grpc_cronet "${_IMPORT_PREFIX}/lib/libgrpc_cronet.a" )
-
 # Import target "gRPC::grpc_unsecure" for configuration ""
 set_property(TARGET gRPC::grpc_unsecure APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(gRPC::grpc_unsecure PROPERTIES
@@ -208,7 +228,7 @@ list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::grpc_unsecure "${_IMPORT_PREFIX}/lib/l
 # Import target "gRPC::grpc++" for configuration ""
 set_property(TARGET gRPC::grpc++ APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(gRPC::grpc++ PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "C;CXX"
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
   IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libgrpc++.a"
   )
 
@@ -218,7 +238,7 @@ list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::grpc++ "${_IMPORT_PREFIX}/lib/libgrpc+
 # Import target "gRPC::grpc++_alts" for configuration ""
 set_property(TARGET gRPC::grpc++_alts APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(gRPC::grpc++_alts PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "C;CXX"
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
   IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libgrpc++_alts.a"
   )
 
@@ -248,7 +268,7 @@ list(APPEND _IMPORT_CHECK_FILES_FOR_gRPC::grpc++_reflection "${_IMPORT_PREFIX}/l
 # Import target "gRPC::grpc++_unsecure" for configuration ""
 set_property(TARGET gRPC::grpc++_unsecure APPEND PROPERTY IMPORTED_CONFIGURATIONS NOCONFIG)
 set_target_properties(gRPC::grpc++_unsecure PROPERTIES
-  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "C;CXX"
+  IMPORTED_LINK_INTERFACE_LANGUAGES_NOCONFIG "CXX"
   IMPORTED_LOCATION_NOCONFIG "${_IMPORT_PREFIX}/lib/libgrpc++_unsecure.a"
   )
 

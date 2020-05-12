@@ -1,7 +1,7 @@
-prefix=/home/changseok/local
-exec_prefix=/home/changseok/local
-libdir=/home/changseok/local/lib
-includedir=/home/changseok/local/include
+prefix=/home/firefly/local
+exec_prefix=/home/firefly/local
+libdir=/home/firefly/local/lib
+includedir=/home/firefly/local/include
 
 Name: Protocol Buffers
 Description: Google's Data Interchange Format

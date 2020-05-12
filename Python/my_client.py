@@ -7,7 +7,7 @@ import my_protobuf_pb2
 import my_protobuf_pb2_grpc
 
 def run():
-    with grpc.insecure_channel('localhost:50051') as channel:
+    with grpc.insecure_channel('192.168.10.72:50051') as channel:
 
         # create stub
         stub = my_protobuf_pb2_grpc.transactionTestStub(channel)
