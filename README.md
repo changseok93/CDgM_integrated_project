@@ -10,7 +10,7 @@ optimal build and compile toolchain for local system architecture is required! (
 ### start server on firefly
 1. clone repository and move in
 2. move to $WORKSPACE/CDgM_integrated_project/C++/cmake/build
-3. run cmake (cmake -DCMAKE_PREFIX_PATH=../../local ../..)
+3. run cmake (cmake -DCMAKE_PREFIX_PATH=./local ../..)
 4. run make (make -j 12)
 5. run server as super user (sudo ./server)
 
