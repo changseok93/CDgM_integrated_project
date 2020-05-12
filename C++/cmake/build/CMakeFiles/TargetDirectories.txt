@@ -1,3 +1,0 @@
-/home/firefly/CDgM_integrated_project/C++/cmake/build/CMakeFiles/rebuild_cache.dir
-/home/firefly/CDgM_integrated_project/C++/cmake/build/CMakeFiles/edit_cache.dir
-/home/firefly/CDgM_integrated_project/C++/cmake/build/CMakeFiles/server.dir
