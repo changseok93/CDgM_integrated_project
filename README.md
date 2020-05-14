@@ -2,6 +2,9 @@
 
 ## current state
 <img src="https://github.com/changseok93/CDgM_integrated_project/blob/master/System_abstract.svg"> </img> <br>
+system overview <br> <br>
+<img src="https://github.com/changseok93/CDgM_integrated_project/blob/master/flowchart.svg"> </img> <br>
+flow chart <br>
 
 ## requirement
 optimal build and compile toolchain for local system architecture is required! (gcc, g++, cmake ....)
