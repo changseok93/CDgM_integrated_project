@@ -169,6 +169,7 @@ foreach(_target server)
     ${_REFLECTION}
     ${_GRPC_GRPCPP}
     ${_PROTOBUF_LIBPROTOBUF}
-    ${OpenCV_LIBS} )
+    ${OpenCV_LIBS}
+    mysqlclient )
 endforeach()
 

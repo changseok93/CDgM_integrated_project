@@ -16,6 +16,7 @@
 #include <grpcpp/grpcpp.h>
 #include <grpcpp/health_check_service_interface.h>
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
+#include </usr/include/mysql/mysql.h>
 
 #ifdef BAZEL_BUILD
 #include "examples/protos/my_protobuf.grpc.pb.h"
@@ -36,136 +37,133 @@ using my_protobuf::JSONType;
 using my_protobuf::RequestImageType;
 using my_protobuf::ReplyImageType;
 using my_protobuf::transactionTest;
+using namespace std;
 
 // Logic and data behind the server's behavior.
 class transactionTestServiceImpl final : public transactionTest::Service {
-  Status ItextOtext(ServerContext* context, const TextType* request,
-                          TextType* reply) override {
-    reply->set_data(request->data());
-    return Status::OK;
+public:
+  MYSQL *conn;
+  MYSQL_RES *res;
+  MYSQL_ROW row;
+  fstream pin12;
+  ifstream pin39;
+  ifstream pin42;
+
+  transactionTestServiceImpl(){
+
+    // initialize Mysql Component
+    char *server = "192.168.10.69";
+    char *user = "root";
+    char *password = "return123";
+    char *database = "test";
+
+    if( !(conn = mysql_init((MYSQL*)NULL))){
+            printf("init fail\n");
+            exit(1);
+    }
+
+    printf("mysql_init success.\n");
+
+    if(!mysql_real_connect(conn, server, user, password, NULL, 3306, NULL, 0)){
+            printf("connect error.\n");
+            exit(1);
+    }
+
+    printf("mysql_real_connect success\n");
+
+    if(mysql_select_db(conn, database) != 0){
+            mysql_close(conn);
+            printf("select_db fail.\n");
+            exit(1);
+    }
+    printf("select mydb success\n");
+
+    // initialize GPIO component
+    pin12.open("/sys/class/gpio/gpio12/value");
+    pin39.open("/sys/class/gpio/gpio39/value");
+    pin42.open("/sys/class/gpio/gpio42/value");
+    printf("pin fd registration success\n");
+
   }
 
-  Status IimageOimage(ServerContext* context, const ImageType* request, 
-                            ImageType* reply) override {
-
-    cv::Mat img;
-    cv::VideoCapture cap;
-    cap.open("/dev/video10"); 
-    cap.set(cv::CAP_PROP_FRAME_WIDTH, 0x7FFFFFFF);          // working
-    cap.set(cv::CAP_PROP_FRAME_HEIGHT, 0x7FFFFFFF);         // working
-    
-    if (cap.isOpened())
-        cap >> img;
-        cv::imwrite("./image_log/temp.jpg", img);
-
-    // load image from local system
-    std::ifstream ifs("./image_log/temp.jpg", std::ios::binary | std::ios::in);
-
-    // calculate file size
-    ifs.seekg(0, ifs.end);
-    int length = (int)ifs.tellg();
-    ifs.seekg(0, ifs.beg);
-
-    // read image in buffer
-    char* buffer = new char [length];
-    ifs.read((char*)buffer, length);
-    ifs.close();
-
-    // set format & data
-    reply->set_format(".jpg");
-    reply->set_data(std::string(buffer, length));
-    
-
-    return Status::OK;
-  }
-
-  Status IjsonOjson(ServerContext* context, const JSONType* request, JSONType* reply) override {
-    reply->set_data(request->data());
-
-    return Status::OK;
-  }
-
-  Status IReqITORepIT(ServerContext* context, const RequestImageType* request, ReplyImageType* reply) override {
-    reply->set_name(request->name());
-    
+  Status IReqITORepIT(ServerContext* context, const RequestImageType* request, ReplyImageType* reply) override {    
     //set local image path
     std::stringstream ss;
     ss << "../../image_log/" << request->name() << ".jpg"; 
 
     // door open
-    int fd = open("/sys/class/gpio/gpio12/value", O_WRONLY);
-    char* temp = new char [1];
-    temp[0] = '0';
-    write(fd, temp, 1);
+    printf("[sys] unlock\n");
+    pin12 << "0";
+    pin12.seekg(0);
+    usleep(1500000);
 
-    // gpio pin poling setup
-    char* door;
-    char* lock;
-    int fd42;
-    int fd39;
-    
-    sleep(3);
-
+    char lock, door;
     // wait until door close
     while(true){
-      fd42 = open("/sys/class/gpio/gpio42/value", O_RDONLY);
-      fd39 = open("/sys/class/gpio/gpio39/value", O_RDONLY);
-      door = new char[1];
-      lock = new char[1];
-      read(fd42, lock, 1);
-      read(fd39, door, 1);
+      pin42.seekg(0);
+      pin39.seekg(0);
+      pin42 >> lock;
+      pin39 >> door;
 
-
-      if (lock[0] == '1' && door[0] == '0')
-          break;
-
-      delete door;
-      delete lock;
-      close(fd39);
-      close(fd42);
-      sleep(1);
-
-    } 
-    close(fd);
-    delete temp;
+      if (lock == '1' && door == '0'){
+        printf("[sys] door closed\n");
+        break;
+      }
+      usleep(100000);
+    }
 
     // get image frame from camera
     cv::Mat img;
     cv::VideoCapture cap;
-    cap.open("/dev/video10"); 
+    cap.open("/dev/video10");
     cap.set(cv::CAP_PROP_FRAME_WIDTH, 0x7FFFFFFF);
     cap.set(cv::CAP_PROP_FRAME_HEIGHT, 0x7FFFFFFF);
+    cap >> img;
+    printf("[sys] get image frame, size : %d\n", img.total());
+
+    //jpeg compression parameters
+    std::vector<uchar> buff;
+    std::vector<int> param = std::vector<int>(2);
+    param[0]=cv::IMWRITE_JPEG_QUALITY;
+    param[1]=95;
+
+    //jpeg compression
+    imencode(".jpg",img,buff,param);
+    const char* data = reinterpret_cast<char*>(buff.data());
+    int length = buff.size();
+    printf("[sys] JPEG encoding, size : %d\n", length);
+
+
     
-    // save image frame to local system
-    if (cap.isOpened()){
-        cap >> img;
-        cv::imwrite(ss.str(), img);
-        std::cout << ss.str() << std::endl;
+    // -----------------------------------------------------------------------------------------------
+    char *query,*end;
+    query = new char [2*length + 1000];
+
+    end = stpcpy(query,"INSERT INTO Image (env_id, data, type, check_num) VALUES('2', '");
+    end += mysql_real_escape_string(conn,end,data,length);
+    end = stpcpy(end,"','1', '1");
+    end = stpcpy(end,"')");
+
+    if (mysql_real_query(conn,query,(unsigned int) (end - query)))
+    {
+       fprintf(stderr, "Failed to insert row, Error: %s\n",
+               mysql_error(conn));
     }
+    printf("[sys] save image in mysql_server success\n");
+    // -----------------------------------------------------------------------------------------------
 
-    // load image from local system
-    std::ifstream ifs(ss.str(), std::ios::binary | std::ios::in);
+    // set reply form
+    reply->set_data(std::string(data, length));
+    reply->set_name(request->name());
+    printf("[sys] create gRPC reply form success\n");
 
-    // calculate file size
-    ifs.seekg(0, ifs.end);
-    int length = (int)ifs.tellg();
-    ifs.seekg(0, ifs.beg);
-    std::cout << "filesize : " << length << std::endl;
-
-    // read image in buffer
-    char* buffer = new char [length];
-    ifs.read((char*)buffer, length);
-    ifs.close();
-
-    // set format & data
-    reply->set_data(std::string(buffer, length));
-    
+    delete query;
     return Status::OK;
   }
 };
 
 void RunServer() {
-  std::string server_address("192.168.10.72:50051");
+  std::string server_address("192.168.0.17:50051");
   transactionTestServiceImpl service;
 
   grpc::EnableDefaultHealthCheckService(true);
@@ -190,3 +188,4 @@ int main(int argc, char** argv) {
 
   return 0;
 }
+
