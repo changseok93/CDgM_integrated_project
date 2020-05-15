@@ -8,6 +8,7 @@ flow chart <br>
 
 ## requirement
 optimal build and compile toolchain for local system architecture is required! (gcc, g++, cmake ....)
+current target platform is FIREFLY RK3399 DEV BOARD
 
 ## how to use
 ### start server on firefly
