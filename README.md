@@ -8,7 +8,10 @@ flow chart <br>
 
 ## requirement
 optimal build and compile toolchain for local system architecture is required! (gcc, g++, cmake ....)<br>
-current target platform is FIREFLY RK3399 DEV BOARD
+current target platform is FIREFLY RK3399 DEV BOARD <br><br>
+<b>required libraries</b> <br>
+<i>apt-get install libopencv-dev <br>
+apt-get install libmysqlclient-dev</i>
 
 ## how to use
 ### start server on firefly
